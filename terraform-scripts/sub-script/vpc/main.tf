@@ -18,20 +18,32 @@ resource "aws_subnet" "public-subnet" {
   count = 2 
   vpc_id     = aws_vpc.login-vpc.id
   cidr_block = var.public-subnets[count.index]
-  availability_zone = data.aws_availability_zones.available.name[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
   tags = {
-    Name = format("public-subnet %d", count.index+1)
+    Name = format("frontend-subnet %d", count.index+1)
   }
 }
 
-resource "aws_subnet" "private-subnet" {
-  count = 4
+resource "aws_subnet" "private-backend-subnet" {
+  count = 2
   vpc_id     = aws_vpc.login-vpc.id
-  cidr_block = var.private-subnets[count.index]
-  availability_zone = data.aws_availability_zones.available.name[count.index]
+  cidr_block = var.private-backend-subnets[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
-    Name = format("private-subnet %d", count.index+1)
+    Name = format("backend-subnet %d", count.index+1)
+  }
+}
+
+
+resource "aws_subnet" "private-backend-subnet" {
+  count = 2
+  vpc_id     = aws_vpc.login-vpc.id
+  cidr_block = var.private-db-subnets[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
+  tags = {
+    Name = format("database-subnet %d", count.index+1)
   }
 }
