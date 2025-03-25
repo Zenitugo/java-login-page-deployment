@@ -98,6 +98,7 @@ resource "aws_route_table" "public-route-table" {
     cidr_block           = "0.0.0.0/0"
     gateway_id           = element(aws_internet_gateway.gw.*.id, count+index)
   }
+  depends_on = [ aws_internet_gateway.gw ]
 }
 
 
@@ -109,4 +110,26 @@ resource "aws_route_table" "private-route-table" {
     cidr_block           = "0.0.0.0.0/0"
     nat_gateway_id       = element(aws_nat_gateway.backend.*.id, count+index)
   }
+  depends_on = [ aws_nat_gateway.backend ]
 }
+
+
+################################ ROUTE TABLE ASSOCIATION CREATION ######################################
+resource "aws_route_table_association" "public" {
+  count          = 2
+  subnet_id      = element(aws_subnet.public-subnet.*.id, count+index)
+  route_table_id = element(aws_route_table.public-route-table.*.id, count+index)
+
+  depends_on = [ aws_subnet.public-subnet,
+                aws_route_table.public-route-table]
+}
+
+
+resource "aws_route_table_association" "private" {
+  subnet_id      = element(aws_subnet.private-backend-subnet.*.id, count+index)
+  route_table_id = element(aws_route_table.private-route-table.*.id, count+index)
+
+  depends_on = [ aws_subnet.private-backend-subnet,
+                 aws_route_table.private-route-table]
+}
+
