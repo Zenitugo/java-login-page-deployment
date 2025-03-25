@@ -7,7 +7,7 @@ resource "aws_vpc" "login-vpc" {
   enable_dns_support = true
 
   tags = {
-    Name = var.name
+    Name = "${var.name}"-vpc
   }
 }
 
@@ -45,5 +45,17 @@ resource "aws_subnet" "private-backend-subnet" {
 
   tags = {
     Name = format("database-subnet %d", count.index+1)
+  }
+}
+
+
+
+
+################### INTERNET GATEWAY CREATION #######################
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.login-vpc.id
+
+  tags = {
+    Name = "${var.name}"-gw
   }
 }
