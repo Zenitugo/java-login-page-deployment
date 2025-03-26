@@ -1,6 +1,12 @@
 region                       = "eu-central-1"
-name                         = "login-page-vpc"
+name                         = "login-page"
 cidr_block                   = "10.0.0.0/16"
 public-subnets               = ["10.0.1.0/24", "10.0.2.0/24"]
 private-backend-subnets      = ["10.0.3.0/24", "10.0.4.0/24"]
 private-db-subnets           = ["10.0.5.0/24", "10.0.6.0/24"] 
+instance_name                = "app engine"
+instance_ami                 = "ami-03250b0e01c28d196"
+instance_type                = "ubuntu"   
+key_name                     = "java-app-key"
+key_filename                 = "/home/ubuntu/.ssh/"  
+sg                           = "login-page-sg"
