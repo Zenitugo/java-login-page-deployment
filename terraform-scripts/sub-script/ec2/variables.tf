@@ -7,3 +7,4 @@ variable "frontend-subnet" {}
 variable "backend-subnet" {}
 variable "sg" {}
 variable "vpc-id" {}
+variable "rds-sg" {}
