@@ -19,4 +19,16 @@ module "ec2" {
     backend-subnet             = module.vpc.backend-subnet
     sg                         = var.sg
     vpc-id                     = module.vpc.vpc-id 
+    rds-sg                     = var.rds-sg 
+}
+
+
+module "rds" {
+    source                     = "../sub-script/rds"
+    parameter_group_name       = var.parameter_group_name 
+    instance_class             = var.instance_class
+    password                   = var.password
+    username                   = var.username 
+    db-subnet                  = module.vpc.db-subnet 
+    rds-sg-id                  = module.ec2.rds-sg-id 
 }
