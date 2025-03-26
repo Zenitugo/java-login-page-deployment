@@ -7,3 +7,16 @@ module "vpc" {
     public-subnets             = var.public-subnets 
   
 }
+
+module "ec2" {
+    source                     = "../sub-script/ec2"
+    instance_name              = var.instance_name
+    instance_ami               = var.instance_ami
+    instance_type              = var.instance_type
+    key_name                   = var.key_name
+    key_filename               = var.key_filename    
+    frontend-subnet            = module.vpc.frontend-subnet
+    backend-subnet             = module.vpc.backend-subnet
+    sg                         = var.sg
+    vpc-id                     = module.vpc.vpc-id 
+}
