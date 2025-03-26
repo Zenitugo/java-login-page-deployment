@@ -10,3 +10,8 @@ variable "instance_type" {}
 variable "key_name" {}
 variable "key_filename" {}
 variable "sg" {}
+variable "parameter_group_name" {}
+variable "username" {}
+variable "password" {}
+variable "instance_class" {}
+variable "rds-sg" {}
