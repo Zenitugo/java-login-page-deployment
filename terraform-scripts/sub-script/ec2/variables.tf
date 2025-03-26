@@ -1,0 +1,9 @@
+variable "instance_name" {}
+variable "instance_ami" {}
+variable "instance_type" {}
+variable "key_name" {}
+variable "key_filename" {}
+variable "frontend-subnet" {}
+variable "backend-subnet" {}
+variable "sg" {}
+variable "vpc-id" {}
