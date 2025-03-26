@@ -4,3 +4,9 @@ variable "cidr_block" {}
 variable "public-subnets" {}
 variable "private-backend-subnets" {}
 variable "private-db-subnets" {}
+variable "instance_name" {}
+variable "instance_ami" {}
+variable "instance_type" {}
+variable "key_name" {}
+variable "key_filename" {}
+variable "sg" {}
