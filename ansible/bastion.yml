@@ -1,0 +1,33 @@
+---
+# PLAY 1 - Create VPC and EC2
+- hosts: localhost
+  become: yes
+  become_user: ugochi
+  gather_facts: true
+
+
+# Execute all roles
+  roles:
+    - vpc
+    - igw
+    - subnets
+    - route-tables
+    - security-group
+    - key-pair
+    - ami
+    - ec2
+
+
+# Play 2 - Install terraform, Java, Git and Sonarqube in ec2 server
+
+- name: Configure the EC2 instance
+  hosts: jenkins-server
+  remote_user: ubuntu
+  become: yes
+  vars:
+    ansible_ssh_private_key_file: ./java-key.pem
+
+  roles:
+    - update-pkg
+    - install-pkg
+    
