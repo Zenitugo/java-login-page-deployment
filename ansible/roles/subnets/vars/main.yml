@@ -1,0 +1,13 @@
+---
+# vars file for subnets
+cidr1: 10.0.7.0/24
+cidr2: 10.0.8.0/24
+region: eu-central-1
+name1: pub-sub
+name2: pri-sub
+az_1: eu-central-1a
+az_2: eu-central-1b
+
+
+
+

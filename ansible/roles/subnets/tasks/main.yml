@@ -1,0 +1,35 @@
+---
+# tasks file for subnets
+
+
+#making use of variable contents in var file
+- include_vars: "vars/main.yml"
+  tags: subnets_creation
+
+
+#Public Subnet creation
+- name: Create public subnet for the bastion server
+  amazon.aws.ec2_vpc_subnet:
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    cidr: "{{ cidr1 }}"
+    region: "{{ region }}"
+    az: "{{ az_1 }}"
+    map_public: true
+    tags:
+      Name: "{{ name1 }}"
+  register: subnet1_info
+
+
+
+
+#Private Subnet creation
+- name: Create private subnet for the bastion server
+  amazon.aws.ec2_vpc_subnet:
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    cidr: "{{ cidr2 }}"
+    region: "{{ region }}"
+    az: "{{ az_2 }}"
+    map_public: true
+    tags:
+      Name: "{{ name2 }}"
+  register: subnet2_info
