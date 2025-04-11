@@ -1,0 +1,23 @@
+---
+# tasks file for ec2
+
+#Include variable file so that main.yml knows where to call the values of its variable
+- include_vars: "vars/main.yml"
+  tags: ec2-creation
+
+# Create ec2
+- name: Create one ec2 instance and attach to the public subnet
+  amazon.aws.ec2_instance:
+    name: "{{ server_name }}"
+    region: "{{ region }}"
+    vpc_subnet_id: "{{ subnet1_info.subnet.id }}"
+    instance_type: "{{ instance_type }}"
+    security_group: "{{ security_group_info.group_id }}"
+    key_name: java-key
+    image_id: "{{ ami_facts.stdout }}"
+    #count: "{{ count }}"
+    wait: yes
+    wait_timeout: 240
+    network:
+      assign_public_ip: true
+  register: ec2_info

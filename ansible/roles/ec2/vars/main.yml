@@ -1,0 +1,5 @@
+---
+# vars file for ec2
+server_name: java-server
+region: eu-central-1
+instance_type: t2.micro
