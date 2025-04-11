@@ -1,0 +1,4 @@
+---
+# vars file for key-pair
+key_name: java-key
+region: eu-central-1

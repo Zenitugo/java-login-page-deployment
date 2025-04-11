@@ -1,0 +1,15 @@
+---
+# tasks file for key-pair
+# Include variable file so that main.yml knows where to call the values of its variable
+- include_vars: "vars/main.yml"
+  tags: keypair-creation
+
+# Create key Pair
+- name: Create key-pair for ec2
+  amazon.aws.ec2_key:
+    region: "{{ region }}"
+    name: "{{ key_name }}"
+    key_type: rsa
+    state: present
+    file_name: ./{{ key_name }}.pem
+  register: ec2_key_pair
