@@ -1,3 +1,69 @@
 ---
 # tasks file for install-pkg
-#
+
+- name: Install Java 17
+  ansible.builtin.apt:
+    name: openjdk-17-jdk
+    state: present
+  tags:
+    - java
+
+
+- name: Install Git
+  ansible.builtin.apt:
+    name: git
+    state: present
+  tags: 
+    - git
+
+- name: Add HashiCorp GPG key for Terraform
+  ansible.builtin.apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: Add HashiCorp APT repository for Terraform
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+    state: present
+
+- name: Install Terraform
+  ansible.builtin.apt:
+    name: terraform
+    state: present
+  tags:
+    - terraform
+
+- name: Install required packages for SonarQube
+  ansible.builtin.apt:
+    name:
+      - unzip
+      - wget
+    state: present
+
+- name: Download SonarQube
+  ansible.builtin.get_url:
+    url: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-10.3.0.82913.zip
+    dest: /opt/sonarqube.zip
+
+- name: Extract SonarQube
+  ansible.builtin.unarchive:
+    src: /opt/sonarqube.zip
+    dest: /opt/
+    remote_src: yes
+
+- name: Rename extracted SonarQube folder
+  ansible.builtin.command: mv /opt/sonarqube-10.3.0.82913 /opt/sonarqube
+  args:
+    creates: /opt/sonarqube
+
+- name: Create a systemd service for SonarQube (basic setup)
+  ansible.builtin.copy:
+    src: sonarqube.service
+    dest: /etc/systemd/system/sonarqube.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd
+    - Start SonarQube
+  
