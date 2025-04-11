@@ -1,0 +1,15 @@
+---
+# tasks file for ami
+# Include variable file so that main.yml knows where to call the values of its variable
+- include_vars: "vars/main.yml"
+  tags: ami-retrieval
+
+# Get Latest Amazon Linux AMI
+- name: Query AWS for the latest Amazon Linux AMI
+  command: aws ec2 describe-images --region "{{ region }}" --owners amazon --filters "Name=name,Values=amzn2-ami-hvm-*-x86_64-gp2" --query 'Images | [0].ImageId' --output text
+  register: ami_facts
+
+
+- name: Print the latest Amazon Linux AMI ID
+  debug:
+    var: ami_facts.stdout
