@@ -1,6 +1,6 @@
 ---
 # tasks file for update-pkg
-# Upgrade all packages for Amazon Linux
+# Upgrade all packages for Ubuntu
 - name: Update package cache
   ansible.builtin.apt:
     name: "*"
