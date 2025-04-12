@@ -16,30 +16,36 @@
         from_port: 22
         to_port: 22
         cidr_ip: 0.0.0.0/0
-        description: "SSH access"
+        rule_desc: "SSH access"
+
       - proto: tcp
         from_port: 80
         to_port: 80
         cidr_ip: 0.0.0.0/0
-        description: "HTTP access"
+        rule_desc: "HTTP access"
+
       - proto: tcp
         from_port: 8080
         to_port: 8080
         cidr_ip: 0.0.0.0/0
-        description: "Jenkins web interface"
+        rule_desc: "Jenkins web interface"
+
       - proto: tcp
         from_port: 9000
         to_port: 9000
         cidr_ip: 0.0.0.0/0
-        description: "SonarQube web interface"
+        rule_desc: "SonarQube web interface"
+
       - proto: tcp
         from_port: 50000
         to_port: 50000
         cidr_ip: 10.0.0.0/16
+        rule_desc: jenkins-agent
+
       - proto: all
         from_port: -1
         to_port: -1
         cidr_ip: 0.0.0.0/0
-        rules_desc: outbound      
+        rule_desc: outbound      
     state: present
   register: security_group_info
