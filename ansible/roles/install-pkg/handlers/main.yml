@@ -7,3 +7,9 @@
     name: sonarqube
     enabled: true
     state: started
+
+- name: Restart Jenkins
+  ansible.builtin.systemd:
+    name: jenkins
+    state: restarted
+
