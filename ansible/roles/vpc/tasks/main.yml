@@ -13,4 +13,4 @@
     name: "{{ bastion_name }}"
     cidr_block: "{{ cidr_block }}"
     region: "{{ region }}"
-    register: vpc_info
+  register: vpc_info
