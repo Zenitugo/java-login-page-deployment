@@ -1,7 +1,15 @@
 ---
 # tasks file for update-pkg
 # Upgrade all packages for Ubuntu
+
 - name: Update package cache
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600  # optional, for performance
+  tags: update-pkg
+
+  
+- name: Upgrade package cache
   ansible.builtin.apt:
     name: "*"
     state: latest
