@@ -27,3 +27,25 @@
           delete_on_termination: true
           volume_type: gp2
   register: ec2_info
+
+
+
+
+# Store the public Ip
+- name: Set fact with Public IP
+  set_fact:
+    public_ip: "{{ ec2_info.instances[0].public_ip_address }}"
+  when: ec2_info.instances | length > 0
+
+
+# Print the value of the Ip address
+- name: Print public IP address
+  debug:
+    var: public_ip
+
+
+# Add public ip to host group
+- name: Add new Instance to the Host Group
+  add_host:
+    name: "{{ public_ip }}"
+    groups: jenkins-server 
