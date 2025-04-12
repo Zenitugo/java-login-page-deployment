@@ -12,7 +12,7 @@
     - igw
     - subnets
     - route-tables
-    - security-group
+    - security-groups
     - key-pair
     - ami
     - ec2
