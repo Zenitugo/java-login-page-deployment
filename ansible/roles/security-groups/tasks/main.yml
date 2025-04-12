@@ -30,6 +30,7 @@
       - proto: tcp
         from_port: 9000
         to_port: 9000
+        cidr_ip: 0.0.0.0/0
         description: "SonarQube web interface"
       - proto: tcp
         from_port: 50000
