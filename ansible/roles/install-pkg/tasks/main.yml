@@ -3,7 +3,7 @@
 
 - name: Install Java 17
   ansible.builtin.apt:
-    name: openjdk-17-jdk
+    name: "{{ java_package }}"
     state: present
   tags:
     - java
@@ -32,6 +32,31 @@
     state: present
   tags:
     - terraform
+
+- name: Add Jenkins repository key
+  ansible.builtin.apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: Add Jenkins repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://pkg.jenkins.io/debian binary/"
+    state: present
+    
+- name: Install Jenkins
+  ansible.builtin.apt:
+    name: jenkins
+    state: present
+    notify: Restart Jenkins
+  tags: 
+    - jenkins
+
+- name: Ensure Jenkins is enabled and started
+  ansible.builtin.systemd:
+    name: jenkins
+    enabled: true
+    state: started
+
 
 - name: Install required packages for SonarQube
   ansible.builtin.apt:
