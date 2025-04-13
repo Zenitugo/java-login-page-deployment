@@ -8,8 +8,9 @@
     enabled: true
     state: started
 
-- name: Restart Jenkins
+- name: Start Jenkins
   ansible.builtin.systemd:
     name: jenkins
-    state: restarted
+    enabled: true
+    state: started
 
