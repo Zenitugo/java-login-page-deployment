@@ -135,7 +135,21 @@ resource "aws_route_table" "public-route-table" {
 
 
 
-resource "aws_route_table" "private-route-table" {
+resource "aws_route_table" "frontend-route-table" {
+  count = 2
+  vpc_id = aws_vpc.login-vpc.id
+
+  route {
+    cidr_block           = "0.0.0.0/0"
+    nat_gateway_id       = element(aws_nat_gateway.frontend.*.id, count.index)
+  }
+  depends_on = [ aws_nat_gateway.frontend ]
+}
+
+
+
+
+resource "aws_route_table" "backend-route-table" {
   count = 2
   vpc_id = aws_vpc.login-vpc.id
 
