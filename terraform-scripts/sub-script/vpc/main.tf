@@ -7,7 +7,7 @@ resource "aws_vpc" "login-vpc" {
   enable_dns_support = true
 
   tags = {
-    Name = "${var.name}"-vpc
+    Name = "${var.name}-vpc"
   }
 }
 
@@ -17,7 +17,7 @@ resource "aws_vpc" "login-vpc" {
 resource "aws_subnet" "public-subnet" {
   count = 2 
   vpc_id     = aws_vpc.login-vpc.id
-  cidr_block = var.public-subnets[count.index]
+  cidr_block = var.public_subnets[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
   tags = {
@@ -28,7 +28,7 @@ resource "aws_subnet" "public-subnet" {
 resource "aws_subnet" "private-backend-subnet" {
   count = 2
   vpc_id     = aws_vpc.login-vpc.id
-  cidr_block = var.private-backend-subnets[count.index]
+  cidr_block = var.private_backend_subnets[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
@@ -40,7 +40,7 @@ resource "aws_subnet" "private-backend-subnet" {
 resource "aws_subnet" "private-db-subnet" {
   count = 2
   vpc_id     = aws_vpc.login-vpc.id
-  cidr_block = var.private-db-subnets[count.index]
+  cidr_block = var.private_db_subnets[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
@@ -56,7 +56,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.login-vpc.id
 
   tags = {
-    Name = "${var.name}"-gw
+    Name = "${var.name}-gw"
   }
 }
 
@@ -92,11 +92,12 @@ resource "aws_nat_gateway" "backend" {
 
 ##################### ROUTE TABLES CREATION  ################################
 resource "aws_route_table" "public-route-table" {
+  count = 2
   vpc_id = aws_vpc.login-vpc.id
 
   route {
     cidr_block           = "0.0.0.0/0"
-    gateway_id           = element(aws_internet_gateway.gw.*.id, count+index)
+    gateway_id           = element(aws_internet_gateway.gw.*.id, count.index)
   }
   depends_on = [ aws_internet_gateway.gw ]
 }
@@ -104,11 +105,12 @@ resource "aws_route_table" "public-route-table" {
 
 
 resource "aws_route_table" "private-route-table" {
+  count = 2
   vpc_id = aws_vpc.login-vpc.id
 
   route {
-    cidr_block           = "0.0.0.0.0/0"
-    nat_gateway_id       = element(aws_nat_gateway.backend.*.id, count+index)
+    cidr_block           = "0.0.0.0/0"
+    nat_gateway_id       = element(aws_nat_gateway.backend.*.id, count.index)
   }
   depends_on = [ aws_nat_gateway.backend ]
 }
@@ -117,8 +119,8 @@ resource "aws_route_table" "private-route-table" {
 ################################ ROUTE TABLE ASSOCIATION CREATION ######################################
 resource "aws_route_table_association" "public" {
   count          = 2
-  subnet_id      = element(aws_subnet.public-subnet.*.id, count+index)
-  route_table_id = element(aws_route_table.public-route-table.*.id, count+index)
+  subnet_id      = element(aws_subnet.public-subnet.*.id, count.index)
+  route_table_id = element(aws_route_table.public-route-table.*.id, count.index)
 
   depends_on = [ aws_subnet.public-subnet,
                 aws_route_table.public-route-table]
@@ -126,8 +128,9 @@ resource "aws_route_table_association" "public" {
 
 
 resource "aws_route_table_association" "private" {
-  subnet_id      = element(aws_subnet.private-backend-subnet.*.id, count+index)
-  route_table_id = element(aws_route_table.private-route-table.*.id, count+index)
+  count          = 2
+  subnet_id      = element(aws_subnet.private-backend-subnet.*.id, count.index)
+  route_table_id = element(aws_route_table.private-route-table.*.id, count.index)
 
   depends_on = [ aws_subnet.private-backend-subnet,
                  aws_route_table.private-route-table]
