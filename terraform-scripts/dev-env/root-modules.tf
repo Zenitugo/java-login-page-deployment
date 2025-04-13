@@ -33,3 +33,8 @@ module "rds" {
     rds_sg_id                  = module.ec2.rds_sg_id 
 }
 
+module "ec2-template" {
+    source                     = "../sub-script/ec2-template"
+    template_name              = var.template_name
+    
+}
