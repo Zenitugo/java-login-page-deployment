@@ -1,8 +1,12 @@
 # Output the subnet IDs
 
-output "frontend-subnet" {
+output "public-subnet" {
     value = aws_subnet.public-subnet[*].id
   
+}
+
+output "frontend-subnet" {
+    value = aws_subnet.private-frontend-subnet[*].id
 }
 
 output "backend-subnet" {
