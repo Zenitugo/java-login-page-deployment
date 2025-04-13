@@ -1,5 +1,5 @@
 variable "name" {}
 variable "cidr_block" {}
-variable "public-subnets" {}
-variable "private-backend-subnets" {}
-variable "private-db-subnets" {}
+variable "public_subnets" {}
+variable "private_backend_subnets" {}
+variable "private_db_subnets" {}
