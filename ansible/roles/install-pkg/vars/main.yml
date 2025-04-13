@@ -1,2 +1,7 @@
 ---
 # vars file for install-pkg
+terraform_version: 1.7.4
+pkg_list:
+  - git
+  - unzip
+  - wget
