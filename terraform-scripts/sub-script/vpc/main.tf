@@ -134,7 +134,6 @@ resource "aws_route_table" "public-route-table" {
 }
 
 
-
 resource "aws_route_table" "frontend-route-table" {
   count = 2
   vpc_id = aws_vpc.login-vpc.id
@@ -172,12 +171,24 @@ resource "aws_route_table_association" "public" {
 }
 
 
-resource "aws_route_table_association" "private" {
+
+resource "aws_route_table_association" "frontend" {
+  count          = 2
+  subnet_id      = element(aws_subnet.private-frontend-subnet.*.id, count.index)
+  route_table_id = element(aws_route_table.frontend-route-table.*.id, count.index)
+
+  depends_on = [ aws_subnet.private-frontend-subnet,
+                 aws_route_table.frontend-route-table]
+}
+
+
+
+resource "aws_route_table_association" "backend" {
   count          = 2
   subnet_id      = element(aws_subnet.private-backend-subnet.*.id, count.index)
-  route_table_id = element(aws_route_table.private-route-table.*.id, count.index)
+  route_table_id = element(aws_route_table.backend-route-table.*.id, count.index)
 
   depends_on = [ aws_subnet.private-backend-subnet,
-                 aws_route_table.private-route-table]
+                 aws_route_table.backend-route-table]
 }
 
