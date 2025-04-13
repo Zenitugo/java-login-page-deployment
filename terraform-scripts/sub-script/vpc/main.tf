@@ -89,6 +89,23 @@ resource "aws_eip" "eip" {
 
 
 ################ NAT GATEWAY CREATION ###############################
+
+resource "aws_nat_gateway" "frontend" {
+  count         = 2
+  allocation_id = element(aws_eip.eip.*.id, count.index)
+  subnet_id     = element(aws_subnet.private-frontend-subnet.*.id, count.index)
+
+  depends_on = [aws_eip.eip,
+                aws_subnet.private-frontend-subnet]
+
+
+  tags = {
+    Name = format("nat-gw-frontend %d", count.index+1)
+  }
+}
+
+
+
 resource "aws_nat_gateway" "backend" {
   count         = 2
   allocation_id = element(aws_eip.eip.*.id, count.index)
@@ -99,7 +116,7 @@ resource "aws_nat_gateway" "backend" {
 
 
   tags = {
-    Name = format("nat-gw %d", count.index+1)
+    Name = format("nat-gw-backend %d", count.index+1)
   }
 }
 
