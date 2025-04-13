@@ -2,16 +2,16 @@ module "vpc" {
     source                     = "../sub-script/vpc"
     name                       = var.name
     cidr_block                 = var.cidr_block 
-    private-backend-subnets    = var.private-backend-subnets
-    private-db-subnets         = var.private-db-subnets
-    public-subnets             = var.public-subnets 
-  
-}
+    private_backend_subnets    = var.private_backend_subnets
+    private_db_subnets         = var.private_db_subnets
+    public_subnets             = var.public_subnets
+  }
 
 module "ec2" {
     source                     = "../sub-script/ec2"
     instance_name              = var.instance_name
-    instance_ami               = var.instance_ami
+    instance_ami_maven         = var.instance_ami_maven
+    instance_ami_nginx         = var.instance_ami_nginx 
     instance_type              = var.instance_type
     key_name                   = var.key_name
     key_filename               = var.key_filename    
@@ -30,5 +30,6 @@ module "rds" {
     password                   = var.password
     username                   = var.username 
     db-subnet                  = module.vpc.db-subnet 
-    rds-sg-id                  = module.ec2.rds-sg-id 
+    rds_sg_id                  = module.ec2.rds_sg_id 
 }
+
