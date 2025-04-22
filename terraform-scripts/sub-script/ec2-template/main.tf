@@ -55,7 +55,8 @@ resource "tls_private_key" "ssh_key" {
 # Put the private key in a local file
 resource "local_file" "testkey_private" {
   content = tls_private_key.ssh_key.private_key_pem
-  filename = var.key_filename
+  filename = "${path.module}/java-app-key.pem"
+  file_permission = "0600"
 }
 
 
