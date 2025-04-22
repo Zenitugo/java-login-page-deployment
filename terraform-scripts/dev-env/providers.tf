@@ -7,16 +7,17 @@ terraform {
   }
 
   
-  backend "s3" {
-    bucket           = "java-buck-25"
-    key              = var.key_name
-    region           = var.region
-    dynamodb_table   = "java-db-25"
-  }
+#   backend "s3" {
+#     bucket           = "java-buck-25"
+#     key              = var.key_name
+#     region           = var.region
+#     dynamodb_table   = "java-db-25"
+#   }
 }
 
 
 provider "aws" {
   # Configuration options
   region = var.region
+  profile = "default"
 }
