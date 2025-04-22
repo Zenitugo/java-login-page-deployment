@@ -4,7 +4,6 @@ variable "instance_ami_maven" {}
 variable "instance_ami_nginx" {}
 variable "instance_type" {}
 variable "key_name" {}
-variable "key_filename" {}
 variable "sg" {}
 variable "vpc-id" {}
 variable "rds-sg" {}
