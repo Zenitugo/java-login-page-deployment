@@ -78,7 +78,7 @@ resource "aws_internet_gateway" "gw" {
 ##################### ELASTIC IP CREATION ########################
 # Allocate an elastic ip address
 resource "aws_eip" "eip" {
-  count                     = 2
+  count                     = 4
   vpc                       = true
    
   tags = {
@@ -108,7 +108,7 @@ resource "aws_nat_gateway" "frontend" {
 
 resource "aws_nat_gateway" "backend" {
   count         = 2
-  allocation_id = element(aws_eip.eip.*.id, count.index)
+  allocation_id = element(aws_eip.eip.*.id, count.index + 2)
   subnet_id     = element(aws_subnet.private-backend-subnet.*.id, count.index)
 
   depends_on = [aws_eip.eip,
