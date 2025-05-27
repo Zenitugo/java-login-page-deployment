@@ -5,16 +5,6 @@
   
   <servers>
     <!-- You can leave this section empty or configure it for your own credentials if needed -->
-    <server>
-      <username>dhebbiespride@gmail.com</username>
-      <password>Admin123!</password>
-      <id>central</id>
-    </server>
-    <server>
-      <username>dhebbiespride@gmail.com</username>
-      <password>Admin123!</password>
-      <id>snapshots</id>
-    </server>
   </servers>
   
   <profiles>
