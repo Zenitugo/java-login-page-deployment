@@ -86,10 +86,3 @@ resource "aws_autoscaling_attachment" "backend_attachment" {
   autoscaling_group_name = var.backend_asg
   lb_target_group_arn    = aws_lb_target_group.backend_tg.arn
 }
-
-
-# Store the backend load balancer
-resource "aws_ssm_parameter" "backend_endpoint" {
-    name  = "/app/backend_endpoint"
-    value = aws_lb.backend_nlb
-}
